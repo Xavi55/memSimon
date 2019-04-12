@@ -1,0 +1,109 @@
+html
+{
+  font-family: 'Bitter', sans-serif;
+  background-color: bisque;
+}
+.txt
+{
+  text-align: center;
+}
+#container
+{
+  text-align: center;
+  display: grid;
+  /*grid-auto-rows: 50% 50%;*/
+  grid-template-rows: repeat(2, 1fr);
+  grid-template-columns: repeat(2, 1fr);
+  margin: 0 30%;
+  grid-gap: .1em;
+}
+#container
+{
+  -webkit-animation: rotation 10s infinite linear;
+}
+.content
+{
+  border: solid black 3px;
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2em;
+  font-weight: bold;
+  cursor: pointer;
+  height: 9em;
+}
+#container :first-child
+{
+  background-color:rgb(0, 214, 0);
+}
+#container :nth-child(2)
+{
+  background-color:red;
+}
+#container :nth-child(3)
+{
+  background-color: yellow;
+}
+#container :nth-child(4)
+{
+  background-color: blue;
+}
+#container :nth-child(1):active
+{
+  border:5px solid white;
+}
+#container :nth-child(2):active
+{
+  border:5px solid white;
+}
+#container :nth-child(3):active
+{
+  border:5px solid white;
+}
+#container :nth-child(4):active
+{
+  border:5px solid white;
+}
+@-webkit-keyframes rotation {
+  from {
+      -webkit-transform: rotate(0deg);
+  }
+  to {
+      -webkit-transform: rotate(359deg);
+  }
+}
+#start
+{
+  display: flex;
+  justify-content: center;
+}
+#bottom
+{
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}
+@media (max-width:1400px)
+{
+  #container
+  {
+    margin: 0 25%;
+  }
+  .content
+  {
+    height: 5.4em;
+  }
+}
+@media (max-width:750px)
+{
+  #container
+  {
+    margin: auto;
+    -webkit-animation: none;
+  }
+  .content
+  {
+    height: 4.4em;
+  }
+}
