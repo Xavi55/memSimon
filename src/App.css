@@ -49,21 +49,9 @@ html
 {
   background-color: blue;
 }
-#container :nth-child(1):active
+#container .content:active
 {
-  border:5px solid white;
-}
-#container :nth-child(2):active
-{
-  border:5px solid white;
-}
-#container :nth-child(3):active
-{
-  border:5px solid white;
-}
-#container :nth-child(4):active
-{
-  border:5px solid white;
+  opacity: .4;
 }
 @-webkit-keyframes rotation {
   from {
@@ -82,7 +70,11 @@ html
 {
   position: fixed;
   bottom: 0;
-  width: 100%;
+  left :0;
+}
+#scores table
+{
+  border-spacing: 6px;
 }
 @media (max-width:1400px)
 {

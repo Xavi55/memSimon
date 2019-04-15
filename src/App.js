@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { ExpansionPanel, ExpansionPanelSummary, 
-  ExpansionPanelDetails, Typography, Button, List, ListItem, Divider} from '@material-ui/core';
+  ExpansionPanelDetails, Typography, Button} from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';  
 import './App.css';
 
@@ -23,9 +23,7 @@ class App extends Component {
       start:0,
       points:0,
       pattern:'',
-      choice:'',
       click:0,
-      switch:0,
       score:[
         {'name':'Kev','score':20},
         {'name':'Bil','score':15},
@@ -77,25 +75,25 @@ class App extends Component {
     document.getElementById('container').style.animation = 'none';
     this.setState({start:1});
     this.buildPattern();
-    this.animate();
   }
 
   buildPattern()
   {
     let boxes = {1:'g',2:'r',3:'y',4:'b'};
-    let temp = this.state.pattern;
+    let pat = this.state.pattern;
     let rand = Math.floor(Math.random() * 4) + 1;
 
-    temp+=boxes[rand];
+    pat += boxes[rand];
 
     this.setState({
-      pattern:temp
+      pattern:pat
     });
-    console.log(temp);//reveal pattern
+    console.log(pat);//reveal pattern
+    this.animate(pat);
   }
   endGame()
   {
-    console.log('loser');
+    console.log('lose');
     let temp=[];
     let found = 0;
     this.state.score.map(c=>
@@ -103,7 +101,15 @@ class App extends Component {
       if(this.state.points>=c.score && !found)
       {
         found = 1;
-        let name = window.prompt('New High Score!').slice(0,3);
+        let name = window.prompt('New High Score!');
+        if(!name)
+        {
+          name = 'Pl1';
+        }
+        else
+        {
+          name = name.slice(0,3)
+        }
         temp.push({'name':name,'score':this.state.points});
       }
       else
@@ -111,7 +117,6 @@ class App extends Component {
         temp.push(c);
       }
     });
-    console.log(temp);
     this.setState({
       points:0,
       click:0,
@@ -120,12 +125,26 @@ class App extends Component {
       score:temp,
     });
   }
-
-  animate()
+  animate(btns)
   {
 
+    /* changeColor=(x)=>
+    {
+
+    } */
+
+    /* for(var btn in btns)
+    {
+      let x = document.getElementById(btns[btn]);
+      let color = window.getComputedStyle(x).getPropertyValue('background-color');
+      x.style.backgroundColor = 'black';
+       window.setTimeout(
+        ()=>
+        {
+          x.style.backgroundColor = color;
+        },500);
+    } */
   }
-  
   render() {
     return (
       <div>
@@ -145,8 +164,8 @@ class App extends Component {
         <br/><br/><br/>
         <div id='container'>
           {
-            btns.map((c,indx)=>
-              <div className='content' id={c+indx} key={c}
+            btns.map((c)=>
+              <div className='content' id={c} key={c}
                 onClick={()=>
                   {
                     this.handleClick(c)
@@ -161,14 +180,28 @@ class App extends Component {
             High Scores
           </ExpansionPanelSummary>
           <ExpansionPanelDetails>
-            <List>
+            {/* <List>
             <ListItem><span>Rank</span><span>Name</span><span>Score</span></ListItem>
             {
               this.state.score.map((x,indx)=>
               <ListItem key={indx+1}>{indx+1}&nbsp;&nbsp;&nbsp;{x.name}&nbsp;&nbsp;&nbsp;{x.score} </ListItem>  
               )
             }
-            </List>
+            </List> */}
+            <table id='scores'>
+            <thead>
+              <tr><th>Rank</th><th>Name</th><th>Score</th></tr>
+            </thead>
+            <tbody>
+            {
+              this.state.score.map((x,indx)=>
+                <tr key={indx+1}>
+                  <td>{indx+1}</td><td>{x.name}</td><td>{x.score}</td> 
+                </tr>
+              )
+            }
+            </tbody>
+            </table>
           </ExpansionPanelDetails>
         </ExpansionPanel>
         </div>
