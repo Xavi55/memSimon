@@ -35,19 +35,26 @@ html
 }
 #container :first-child
 {
-  background-color:rgb(0, 214, 0);
+  background-color: limegreen;
+  border-top-left-radius: 40%;
 }
 #container :nth-child(2)
 {
-  background-color:red;
+  background-color: red;
+  border-top-right-radius: 40%;
+
 }
 #container :nth-child(3)
 {
   background-color: yellow;
+  border-bottom-left-radius: 40%;
+
 }
 #container :nth-child(4)
 {
   background-color: blue;
+  border-bottom-right-radius: 40%;
+
 }
 #container .content:active
 {
@@ -75,6 +82,10 @@ html
 #scores table
 {
   border-spacing: 6px;
+}
+.picked
+{
+  background-color: rgba(0,0,0, .9) !important;
 }
 @media (max-width:1400px)
 {

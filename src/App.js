@@ -5,6 +5,7 @@ import { withStyles } from '@material-ui/core/styles';
 import './App.css';
 
 const btns = ['g','r','y','b'];
+let interval;
 
 const styles = theme => ({
     root: {
@@ -24,11 +25,12 @@ class App extends Component {
       points:0,
       pattern:'',
       click:0,
+      compTurn:0,
       score:[
-        {'name':'Kev','score':20},
-        {'name':'Bil','score':15},
-        {'name':'Sal','score':10},
-        {'name':'Mik','score':5},
+        {'name':'Kev','score':15},
+        {'name':'Bil','score':10},
+        {'name':'Sal','score':3},
+        {'name':'Mik','score':2},
         {'name':'Haw','score':1}
       ]
     };
@@ -38,19 +40,19 @@ class App extends Component {
 
   handleClick(e) 
   {
-    if(this.state.start)
+    if(this.state.start && !this.state.compTurn)
     {
-      let need = this.state.pattern.length;
+      let need = this.state.pattern.length;//click/actions needed to level up
 
-      if(e===this.state.pattern[this.state.click])
+      if(e===this.state.pattern[this.state.click])//if matches the pattern
       {
         console.log('pass');
-        if(this.state.click===need-1)
+        if(this.state.click===need-1)//advance to the next level
         {
           console.log('new level');
           this.setState({
             click:0,
-            points:this.state.points+1
+            points:this.state.points+1,
           });
           this.buildPattern();
         }
@@ -77,34 +79,93 @@ class App extends Component {
     this.buildPattern();
   }
 
-  buildPattern()
+  buildPattern()//or I could build the entire pattern from the GET-ko
   {
     let boxes = {1:'g',2:'r',3:'y',4:'b'};
     let pat = this.state.pattern;
-    let rand = Math.floor(Math.random() * 4) + 1;
-
+    let rand = Math.floor(Math.random() * 4) + 1;//get a random #
     pat += boxes[rand];
-
     this.setState({
-      pattern:pat
+      pattern:pat,
     });
-    console.log(pat);//reveal pattern
-    this.animate(pat);
+    //this.animate(pat);
+    interval = setInterval(this.animate(pat),8000);
+
   }
+
+  animate(btns)//
+  {
+    console.log(btns);
+    //for(let btn in btns)
+    //{
+      this.clearColor();
+      let x = document.getElementById(btns[0]);
+      let color = window.getComputedStyle(x).getPropertyValue('background-color');
+      x.style.backgroundColor='black';
+      window.setTimeout(()=>
+      {
+        x.style.backgroundColor = color;
+      },500); 
+    //}
+    //clearInterval(interval);
+  }
+
+  clearColor()
+  {
+    let colors = ['limegreen','red','yellow','blue'] 
+    let children = document.getElementById('container').children;
+    for(let i=0; i<3; i++)
+    {
+      //console.log(children[x])
+      children[i].style.backgroundColor = colors[i];
+    }
+  }
+
   endGame()
   {
     console.log('lose');
     let temp=[];
     let found = 0;
+    for(let i=0;i<4;i++)
+    {
+      if(this.state.points>=this.state.score[i].score && !found)
+      {
+        found = 1;
+        let name = window.prompt('New High Score!');
+        if(name.length===0)
+        {
+          name = 'P1';
+        }
+        else
+        {
+          name = name.slice(0,3)
+        }
+        temp.push({'name':name,'score':this.state.points},this.state.score[i]);
+        //continue;
+      }
+      else
+      {
+        temp.push(this.state.score[i]);
+      }
+    }
+    this.setState({
+      points:0,
+      click:0,
+      start:0,
+      pattern:'',
+      score:temp,
+    });
+    
+    /* 
     this.state.score.map(c=>
     {
       if(this.state.points>=c.score && !found)
       {
         found = 1;
         let name = window.prompt('New High Score!');
-        if(!name)
+        if(name.length===0)
         {
-          name = 'Pl1';
+          name = 'P1';
         }
         else
         {
@@ -117,38 +178,20 @@ class App extends Component {
         temp.push(c);
       }
     });
-    this.setState({
+      this.setState({
       points:0,
       click:0,
       start:0,
       pattern:'',
       score:temp,
     });
+     */
   }
-  animate(btns)
-  {
-
-    /* changeColor=(x)=>
-    {
-
-    } */
-
-    /* for(var btn in btns)
-    {
-      let x = document.getElementById(btns[btn]);
-      let color = window.getComputedStyle(x).getPropertyValue('background-color');
-      x.style.backgroundColor = 'black';
-       window.setTimeout(
-        ()=>
-        {
-          x.style.backgroundColor = color;
-        },500);
-    } */
-  }
+  
   render() {
     return (
       <div>
-        <h2 className='txt'>Test your memory by matching the colors!</h2>
+        <h2 className='txt'>Match the colors & test your memory!</h2>
         {
           this.state.start
           ?
@@ -168,7 +211,7 @@ class App extends Component {
               <div className='content' id={c} key={c}
                 onClick={()=>
                   {
-                    this.handleClick(c)
+                    this.handleClick(c);
                   }}
               ></div>
               )
@@ -180,14 +223,6 @@ class App extends Component {
             High Scores
           </ExpansionPanelSummary>
           <ExpansionPanelDetails>
-            {/* <List>
-            <ListItem><span>Rank</span><span>Name</span><span>Score</span></ListItem>
-            {
-              this.state.score.map((x,indx)=>
-              <ListItem key={indx+1}>{indx+1}&nbsp;&nbsp;&nbsp;{x.name}&nbsp;&nbsp;&nbsp;{x.score} </ListItem>  
-              )
-            }
-            </List> */}
             <table id='scores'>
             <thead>
               <tr><th>Rank</th><th>Name</th><th>Score</th></tr>
