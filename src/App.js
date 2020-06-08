@@ -4,7 +4,7 @@ import { ExpansionPanel, ExpansionPanelSummary,
 import { withStyles } from '@material-ui/core/styles';  
 import './App.css';
 
-const btns = ['g','r','y','b'];
+const squares = ['g','r','y','b'];
 let interval;
 
 const styles = theme => ({
@@ -88,25 +88,30 @@ class App extends Component {
     this.setState({
       pattern:pat,
     });
-    //this.animate(pat);
-    interval = setInterval(this.animate(pat),8000);
+    this.animate(pat);
+    //interval = setInterval(this.animate(pat),8000);
 
   }
 
   animate(btns)//
   {
     console.log(btns);
-    //for(let btn in btns)
-    //{
-      this.clearColor();
-      let x = document.getElementById(btns[0]);
-      let color = window.getComputedStyle(x).getPropertyValue('background-color');
-      x.style.backgroundColor='black';
+
+    for(let btn=0;btn<btns.length;btn++)
+    {
+      //this.clearColor();
       window.setTimeout(()=>
       {
-        x.style.backgroundColor = color;
-      },500); 
-    //}
+        let x = document.getElementById(btns[btn]);
+        let color = window.getComputedStyle(x).getPropertyValue('background-color');
+        x.style.backgroundColor='black';
+        //x.style.backgroundColor = color;
+        setTimeout(()=>
+        {
+          this.clearColor()
+        },500)
+      },1000*btn); 
+    }
     //clearInterval(interval);
   }
 
@@ -114,7 +119,7 @@ class App extends Component {
   {
     let colors = ['limegreen','red','yellow','blue'] 
     let children = document.getElementById('container').children;
-    for(let i=0; i<3; i++)
+    for(let i=0; i<4; i++)
     {
       //console.log(children[x])
       children[i].style.backgroundColor = colors[i];
@@ -207,7 +212,7 @@ class App extends Component {
         <br/><br/><br/>
         <div id='container'>
           {
-            btns.map((c)=>
+            squares.map((c)=>
               <div className='content' id={c} key={c}
                 onClick={()=>
                   {

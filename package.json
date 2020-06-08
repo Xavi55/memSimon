@@ -4,11 +4,11 @@
   "private": true,
   "homepage": "https://xavi55.github.io/memSimon",
   "dependencies": {
-    "@material-ui/core": "^3.9.3",
-    "gh-pages": "^2.0.1",
-    "react": "^16.5.2",
+    "@material-ui/core": "^3.9.4",
+    "gh-pages": "^2.2.0",
+    "react": "^16.13.1",
     "react-bootstrap": "^0.32.4",
-    "react-dom": "^16.5.2",
+    "react-dom": "^16.13.1",
     "react-scripts": "2.0.4"
   },
   "scripts": {
