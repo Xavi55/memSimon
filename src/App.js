@@ -109,7 +109,7 @@ class App extends Component {
         setTimeout(()=>
         {
           this.clearColor()
-        },500)
+        },300)
       },1000*btn); 
     }
     //clearInterval(interval);
@@ -131,12 +131,12 @@ class App extends Component {
     console.log('lose');
     let temp=[];
     let found = 0;
-    for(let i=0;i<4;i++)
+    for(let i=0;i<this.state.score.length;i++)
     {
+      //if big score found, enter it once and only once it's found
       if(this.state.points>=this.state.score[i].score && !found)
       {
-        found = 1;
-        let name = window.prompt('New High Score!');
+        let name=window.prompt('New High Score - Enter your initials!')
         if(name.length===0)
         {
           name = 'P1';
@@ -145,12 +145,15 @@ class App extends Component {
         {
           name = name.slice(0,3)
         }
-        temp.push({'name':name,'score':this.state.points},this.state.score[i]);
-        //continue;
+        temp.push({
+          'name':name,
+          score:this.state.points
+        })
+        found=1
       }
       else
       {
-        temp.push(this.state.score[i]);
+        temp.push(this.state.score[i])
       }
     }
     this.setState({
@@ -160,37 +163,6 @@ class App extends Component {
       pattern:'',
       score:temp,
     });
-    
-    /* 
-    this.state.score.map(c=>
-    {
-      if(this.state.points>=c.score && !found)
-      {
-        found = 1;
-        let name = window.prompt('New High Score!');
-        if(name.length===0)
-        {
-          name = 'P1';
-        }
-        else
-        {
-          name = name.slice(0,3)
-        }
-        temp.push({'name':name,'score':this.state.points});
-      }
-      else
-      {
-        temp.push(c);
-      }
-    });
-      this.setState({
-      points:0,
-      click:0,
-      start:0,
-      pattern:'',
-      score:temp,
-    });
-     */
   }
   
   render() {
